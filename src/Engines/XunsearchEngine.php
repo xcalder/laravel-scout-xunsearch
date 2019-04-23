@@ -216,7 +216,7 @@ class XunsearchEngine extends Engine
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function map($results, $model)
+    public function map(Builder $builder, $results, $model)
     {
         if (count($results['hits']) === 0) {
             return Collection::make();
@@ -253,5 +253,11 @@ class XunsearchEngine extends Engine
     public function getTotalCount($results)
     {
         return $results['nbHits'];
+    }
+    
+    public function flush($model){
+        $index = $this->xunsearch->initIndex($models->first()->searchableAs());
+        $index->clean();
+        $index->flushIndex();
     }
 }
