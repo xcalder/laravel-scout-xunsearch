@@ -4,7 +4,7 @@
  * psr2
  */
 
-namespace Liugj\Xunsearch\Jobs;
+namespace Xcalder\Xunsearch\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "xcalder\\Xunsearch\\": "src/"
+            "Xcalder\\Xunsearch\\": "src/"
         },
         "classmap": ["sdk"]
     },

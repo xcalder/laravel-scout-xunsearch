@@ -4,7 +4,7 @@
  * psr2
  */
 
-namespace Liugj\Xunsearch\Operators;
+namespace Xcalder\Xunsearch\Operators;
 
 abstract class Operator
 {
