@@ -1,11 +1,11 @@
 {
-    "name": "xcalder/lumen-xunsearch",
+    "name": "xcalder/laravel-scout-xunsearch",
     "description": "Xunsearch Driver for Laravel Scout.",
     "keywords": ["Lumen", "scout", "xunsearch"],
     "authors": [
         {
-            "name": "liugj",
-            "email": "liugj@126.com"
+            "name": "xcalder",
+            "email": "xcalder@foxmail.com"
         }
     ],
     "require": {
@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Liugj\\Xunsearch\\": "src/"
+            "xcalder\\Xunsearch\\": "src/"
         },
         "classmap": ["sdk"]
     },
