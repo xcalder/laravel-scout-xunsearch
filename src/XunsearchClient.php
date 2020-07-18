@@ -6,6 +6,7 @@
 
 namespace Xcalder\Xunsearch;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 
 class XunsearchClient
@@ -121,6 +122,7 @@ class XunsearchClient
      */
     private function loadConfig($schema)
     {
+        $schema = Str::after($schema, config('scout.xunsearch.scout_prefix').'_');
         $file = $this->options['schema'][$schema];
         $key = 'xunsearch_'.md5($file);
         $mtime = filemtime($file);
