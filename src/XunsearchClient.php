@@ -122,8 +122,8 @@ class XunsearchClient
      */
     private function loadConfig($schema)
     {
-        $schema = Str::after($schema, config('scout.prefix').'_');
-        $file = $this->options['schema'][$schema];
+        $file_ = Str::after($schema, config('scout.prefix').'_');
+        $file = $this->options['schema'][$file_];
         $key = 'xunsearch_'.md5($file);
         $mtime = filemtime($file);
 
