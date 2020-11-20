@@ -86,6 +86,7 @@ This enginge allows you to add more advanced "where" clauses.
 
 By default, the entire toArray form of a given model will be persisted to its search index. If you would like to customize the data that is synchronized to the search index, you may override the  toSearchableArray method on the model:
 
+注意： 如果是旧版本更新，把config('scout.xunsearch.prefix')  改成  config('scout.prefix')
 
 ```
 <?php
