@@ -221,7 +221,7 @@ class XunsearchEngine extends Engine
         if (count($results['hits']) === 0) {
             return Collection::make();
         }
-        /*
+        
         $keys = collect($results['hits'])
                         ->pluck($model->getKeyName())->values()->all();
 
@@ -237,10 +237,10 @@ class XunsearchEngine extends Engine
                 return $models[$key];
             }
         })->filter();
-        */
-        return collect($results['hits'])->map(function ($hit, $key) use ($model) {
-            return $hit->getFields();
-        })->filter();
+        
+//         return collect($results['hits'])->map(function ($hit, $key) use ($model) {
+//             return $hit->getFields();
+//         })->filter();
     }
 
     /**
