@@ -14,9 +14,16 @@
     },
     "autoload": {
         "psr-4": {
-            "Xcalder\\Xunsearch\\": "src/"
+            "Scout\\Xunsearch\\": "src/"
         },
         "classmap": ["sdk"]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Scout\\Xunsearch\\XunsearchServiceProvider"
+            ]
+        }
     },
     "license": "MIT",
     "minimum-stability": "stable",

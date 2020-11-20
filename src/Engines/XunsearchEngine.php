@@ -4,19 +4,19 @@
  * psr2
  */
 
-namespace Xcalder\Xunsearch\Engines;
+namespace Scout\Xunsearch\Engines;
 
 use Illuminate\Database\Eloquent\Collection;
 use Laravel\Scout\Builder;
 use Laravel\Scout\Engines\Engine as Engine;
-use Xcalder\Xunsearch\XunsearchClient as Xunsearch;
+use Scout\Xunsearch\XunsearchClient as Xunsearch;
 
 class XunsearchEngine extends Engine
 {
     /**
      * The Xunsearch client.
      *
-     * @var Xcalder\Xunsearch\XunSearchClient
+     * @var Scout\Xunsearch\XunSearchClient
      */
     protected $xunsearch;
 
@@ -138,15 +138,15 @@ class XunsearchEngine extends Engine
 
         $search->setQuery($builder->query);
         collect($builder->wheres)->map(function ($value, $key) use ($search) {
-            if ($value instanceof \Xcalder\Xunsearch\Operators\RangeOperator) {
+            if ($value instanceof \Scout\Xunsearch\Operators\RangeOperator) {
                 $search->addRange($key, $value->getFrom(), $value->getTo());
-            } elseif ($value instanceof \Xcalder\Xunsearch\Operators\WeightOperator) {
+            } elseif ($value instanceof \Scout\Xunsearch\Operators\WeightOperator) {
                 $search->addWeight($key, $value);
-            } elseif ($value instanceof \Xcalder\Xunsearch\Operators\CollapseOperator) {
+            } elseif ($value instanceof \Scout\Xunsearch\Operators\CollapseOperator) {
                 $search->setCollapse($key, (int) sprintf('%s', $value));
-            } elseif ($value instanceof \Xcalder\Xunsearch\Operators\FuzzyOperator) {
+            } elseif ($value instanceof \Scout\Xunsearch\Operators\FuzzyOperator) {
                 $search->setFuzzy($value);
-            } elseif ($value instanceof \Xcalder\Xunsearch\Operators\FacetsOperator) {
+            } elseif ($value instanceof \Scout\Xunsearch\Operators\FacetsOperator) {
                 $search->setFacets($value->getFields(), $value->getExact());
             } else {
                 $search->addRange($key, $value, $value);
@@ -172,7 +172,7 @@ class XunsearchEngine extends Engine
         $hits = $search->setLimit($perPage, $offset)->search();
 
         $facets = collect($builder->wheres)->map(function ($value, $key) use ($search) {
-            if ($value instanceof \Xcalder\Xunsearch\Operators\FacetsOperator) {
+            if ($value instanceof \Scout\Xunsearch\Operators\FacetsOperator) {
                 return collect($value->getFields())->mapWithKeys(function ($field) use ($search) {
                     return [$field =>$search->getFacets($field)];
                 });

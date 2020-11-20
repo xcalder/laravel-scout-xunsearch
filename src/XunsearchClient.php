@@ -4,7 +4,7 @@
  * psr2
  */
 
-namespace Xcalder\Xunsearch;
+namespace Scout\Xunsearch;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;

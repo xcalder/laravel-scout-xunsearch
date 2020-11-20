@@ -4,13 +4,13 @@
  * psr2
  */
 
-namespace Xcalder\Xunsearch;
+namespace Scout\Xunsearch;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Scout\Console\FlushCommand;
 use Laravel\Scout\Console\ImportCommand;
 use Laravel\Scout\EngineManager;
-use Xcalder\Xunsearch\Engines\XunsearchEngine;
+use Scout\Xunsearch\Engines\XunsearchEngine;
 
 class XunsearchServiceProvider extends ServiceProvider
 {

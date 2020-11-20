@@ -4,7 +4,7 @@
  * psr2
  */
 
-namespace Xcalder\Xunsearch\Operators;
+namespace Scout\Xunsearch\Operators;
 
 class FacetsOperator extends Operator
 {

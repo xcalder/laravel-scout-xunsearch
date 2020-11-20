@@ -4,7 +4,7 @@
  * psr2
  */
 
-namespace Xcalder\Xunsearch\Operators;
+namespace Scout\Xunsearch\Operators;
 
 class CollapseOperator extends Operator
 {
