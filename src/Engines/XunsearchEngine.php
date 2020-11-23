@@ -43,7 +43,7 @@ class XunsearchEngine extends Engine
      */
     public function update($models)
     {
-        $index = $this->xunsearch->initIndex($models->first()->searchableAs());
+        $index = $this->xunsearch->initIndex($models->searchableAs());
 
         $models->map(function ($model) use ($index) {
             $array = $model->toSearchableArray();
@@ -71,7 +71,7 @@ class XunsearchEngine extends Engine
      */
     public function delete($models)
     {
-        $index = $this->xunsearch->initIndex($models->first()->searchableAs());
+        $index = $this->xunsearch->initIndex($models->searchableAs());
 
         $models->map(function ($model) use ($index) {
             $index->del($model->getKey());
@@ -126,7 +126,7 @@ class XunsearchEngine extends Engine
         $search = $this->xunsearch->initSearch(
             $builder->index ?: $builder->model->searchableAs()
         );
-
+        
         if ($builder->callback) {
             return call_user_func(
                 $builder->callback,
@@ -135,7 +135,7 @@ class XunsearchEngine extends Engine
                 $options
             );
         }
-
+        
         $search->setQuery($builder->query);
         collect($builder->wheres)->map(function ($value, $key) use ($search) {
             if ($value instanceof \Scout\Xunsearch\Operators\RangeOperator) {
