@@ -256,7 +256,7 @@ class XunsearchEngine extends Engine
     }
     
     public function flush($model){
-        $index = $this->xunsearch->initIndex($model->first()->searchableAs());
+        $index = $this->xunsearch->initIndex($model->searchableAs());
         $index->clean();
         $index->flushIndex();
     }
