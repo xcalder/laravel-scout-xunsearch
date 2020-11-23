@@ -43,7 +43,7 @@ class XunsearchEngine extends Engine
      */
     public function update($models)
     {
-        $index = $this->xunsearch->initIndex($models->searchableAs());
+        $index = $this->xunsearch->initIndex($models->first()->searchableAs());
 
         $models->map(function ($model) use ($index) {
             $array = $model->toSearchableArray();
@@ -71,7 +71,7 @@ class XunsearchEngine extends Engine
      */
     public function delete($models)
     {
-        $index = $this->xunsearch->initIndex($models->searchableAs());
+        $index = $this->xunsearch->initIndex($models->first()->searchableAs());
 
         $models->map(function ($model) use ($index) {
             $index->del($model->getKey());
