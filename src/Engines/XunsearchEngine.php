@@ -136,7 +136,9 @@ class XunsearchEngine extends Engine
             );
         }
         
-        $search->setQuery($builder->query);
+        $query = $this->getScws($builder->query);
+        
+        $search->setQuery($query);
         collect($builder->wheres)->map(function ($value, $key) use ($search) {
             if ($value instanceof \Scout\Xunsearch\Operators\RangeOperator) {
                 $search->addRange($key, $value->getFrom(), $value->getTo());
@@ -243,6 +245,15 @@ class XunsearchEngine extends Engine
 //         })->filter();
     }
 
+    private function getScws(string $srting){
+        $tokenizer = new \XSTokenizerScws;
+        
+        $top_words                      = $tokenizer->getTops($srting, 5, 'n,v,vn');
+        $words                          = array_column($top_words, 'word');
+        
+        return implode(' ', $words);
+    }
+    
     /**
      * Get the total count from a raw result returned by the engine.
      *
