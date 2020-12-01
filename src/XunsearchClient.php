@@ -66,13 +66,26 @@ class XunsearchClient
      *
      * @param string $searchName
      *
-     * @return XSSearch 搜索操作对象
+     * @return \XS 搜索操作对象
      */
     public function initSearch(string $searchName)
     {
         $config = $this->loadConfig($searchName);
 
         return  (new \XS($config))->getSearch();
+    }
+    
+    /**
+     * 获取分词
+     * @param string $text
+     * @param int $num
+     * @param string $attr
+     * @return array|mixed[]|string[]
+     */
+    public function swcs(string $text, int $num = 5, string $attr = 'n,v,vn'){
+        $tokenize = new \XSTokenizerScws();
+        
+        return $tokenize->getResult($text);
     }
 
     /**

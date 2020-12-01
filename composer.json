@@ -22,7 +22,10 @@
         "laravel": {
             "providers": [
                 "Scout\\Xunsearch\\XunsearchServiceProvider"
-            ]
+            ],
+            "aliases" : {
+				"Xunsearch" : "Scout\\Xunsearch\\Facades\\Xunsearch"
+			}
         }
     },
     "license": "MIT",
