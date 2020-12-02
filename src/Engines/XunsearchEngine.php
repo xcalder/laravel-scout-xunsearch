@@ -249,7 +249,10 @@ class XunsearchEngine extends Engine
 //         })->filter();
     }
 
-    private function getScws(string $srting){
+    private function getScws($srting){
+        if(empty($srting)){
+            return $srting;
+        }
         $tokenizer = new \XSTokenizerScws;
         
         $top_words                      = $tokenizer->getTops($srting, 5, 'n,v,vn');
