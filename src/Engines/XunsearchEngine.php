@@ -136,6 +136,8 @@ class XunsearchEngine extends Engine
             );
         }
         
+        $search->setAutoSynonyms();
+        
         $query = $this->getScws($builder->query);
         
         if(empty($query)){
