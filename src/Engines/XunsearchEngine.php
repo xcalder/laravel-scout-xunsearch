@@ -138,6 +138,10 @@ class XunsearchEngine extends Engine
         
         $query = $this->getScws($builder->query);
         
+        if(empty($query)){
+            $query = $builder->query;
+        }
+        
         $search->setQuery($query);
         collect($builder->wheres)->map(function ($value, $key) use ($search) {
             if ($value instanceof \Scout\Xunsearch\Operators\RangeOperator) {
