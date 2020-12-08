@@ -4,7 +4,6 @@ namespace Scout\Xunsearch\Facades;
 
 
 use Illuminate\Support\Facades\Facade;
-use Scout\Xunsearch\XunsearchClient;
 
 /**
  * 
@@ -14,8 +13,13 @@ use Scout\Xunsearch\XunsearchClient;
 
 class Xunsearch extends Facade
 {
+    /**
+     * 
+     * @return string
+     */
+    
     protected static function getFacadeAccessor()
     {
-        return XunsearchClient::class;
+        return static::$app[\Scout\Xunsearch\XunsearchClient::class];
     }
 }

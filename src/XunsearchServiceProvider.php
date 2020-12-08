@@ -50,6 +50,14 @@ class XunsearchServiceProvider extends ServiceProvider
                     FlushCommand::class,
             ]);
         }
+        
+        $this->app->bind(XunsearchClient::class, function ($app) {
+            return new XunsearchClient(
+                $app['config']['scout.xunsearch.index'],
+                $app['config']['scout.xunsearch.search'],
+                ['schema' => $app['config']['scout.xunsearch.schema']]
+             );
+        });
     }
 
     /**

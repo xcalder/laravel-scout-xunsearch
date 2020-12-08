@@ -85,7 +85,7 @@ class XunsearchClient
     public function swcs(string $text, int $num = 5, string $attr = 'n,v,vn'){
         $tokenize = new \XSTokenizerScws();
         
-        return $tokenize->getResult($text);
+        return $tokenize->getTops($text, $num, $attr);
     }
 
     /**
