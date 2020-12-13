@@ -140,6 +140,11 @@ class XunsearchEngine extends Engine
         
         $query = $this->getScws($builder->query, $times);
         
+        if(empty($query)){
+            $query = $builder->query;
+            $times = 1;
+        }
+        
         $search->setQuery($query);
         
         collect($builder->wheres)->map(function ($value, $key) use ($search) {
