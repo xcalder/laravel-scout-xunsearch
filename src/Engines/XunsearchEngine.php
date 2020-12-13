@@ -7,6 +7,7 @@
 namespace Scout\Xunsearch\Engines;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
 use Laravel\Scout\Builder;
 use Laravel\Scout\Engines\Engine as Engine;
 use Scout\Xunsearch\XunsearchClient as Xunsearch;
@@ -121,7 +122,7 @@ class XunsearchEngine extends Engine
      *
      * @return mixed
      */
-    protected function performSearch(Builder $builder, array $options = [], $times = 5)
+    protected function performSearch(Builder $builder, array $options = [], $or = false)
     {
         $search = $this->xunsearch->initSearch(
             $builder->index ?: $builder->model->searchableAs()
@@ -136,14 +137,7 @@ class XunsearchEngine extends Engine
             );
         }
         
-        $search->setAutoSynonyms();
-        
-        $query = $this->getScws($builder->query, $times);
-        
-        if(empty($query)){
-            $query = $builder->query;
-            $times = 1;
-        }
+        $query = $this->getScws($builder->query, $or);
         
         $search->setQuery($query);
         
@@ -181,10 +175,10 @@ class XunsearchEngine extends Engine
         }
         $hits = $search->setLimit($perPage, $offset)->search();
         
-        if(empty($hits) && $times > 1){
-            $this->performSearch($builder, $options, $times - 2);
+        if(count($hits) < 3 && $or == false){
+            $this->performSearch($builder, $options, true);
         }
-
+        
         $facets = collect($builder->wheres)->map(function ($value, $key) use ($search) {
             if ($value instanceof \Scout\Xunsearch\Operators\FacetsOperator) {
                 return collect($value->getFields())->mapWithKeys(function ($field) use ($search) {
@@ -257,16 +251,26 @@ class XunsearchEngine extends Engine
 //         })->filter();
     }
 
-    private function getScws($srting, $times){
+    private function getScws($srting, $or){
         if(empty($srting)){
             return $srting;
         }
+        
         $tokenizer = new \XSTokenizerScws;
         
-        $top_words                      = $tokenizer->getTops($srting, $times, 'n,v,vn');
-        $words                          = array_column($top_words, 'word');
+        $top_words                      = $tokenizer->getTops($srting, 5, 'n,nr,ns,nz,v,vn');
         
-        return implode('OR', $words);
+        $top_words = array_column($top_words, 'word');
+        if(count($top_words) < 2 || $or){
+            return implode(' OR ', $top_words);
+        }
+        
+        $keyword_ = $top_words[0] . ' AND (';
+        unset($top_words[0]);
+        $keyword = implode(' OR ', $top_words);
+        $keyword_ .= $keyword . ')';
+        
+        return $keyword_;
     }
     
     /**
