@@ -138,13 +138,7 @@ class XunsearchEngine extends Engine
         
         $search->setAutoSynonyms();
         
-        $query = $this->getScws($builder->query);
-        
-        if(empty($query)){
-            $query = $builder->query;
-        }
-        
-        $search->setQuery($query);
+        $search->setQuery($builder->query);
         collect($builder->wheres)->map(function ($value, $key) use ($search) {
             if ($value instanceof \Scout\Xunsearch\Operators\RangeOperator) {
                 $search->addRange($key, $value->getFrom(), $value->getTo());
