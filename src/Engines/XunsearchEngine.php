@@ -121,7 +121,7 @@ class XunsearchEngine extends Engine
      *
      * @return mixed
      */
-    protected function performSearch(Builder $builder, array $options = [])
+    protected function performSearch(Builder $builder, array $options = [], $times = 5)
     {
         $search = $this->xunsearch->initSearch(
             $builder->index ?: $builder->model->searchableAs()
@@ -138,7 +138,10 @@ class XunsearchEngine extends Engine
         
         $search->setAutoSynonyms();
         
-        $search->setQuery($builder->query);
+        $query = $this->getScws($builder->query, $times);
+        
+        $search->setQuery($query);
+        
         collect($builder->wheres)->map(function ($value, $key) use ($search) {
             if ($value instanceof \Scout\Xunsearch\Operators\RangeOperator) {
                 $search->addRange($key, $value->getFrom(), $value->getTo());
@@ -172,6 +175,10 @@ class XunsearchEngine extends Engine
             $offset = $perPage * $options['page'];
         }
         $hits = $search->setLimit($perPage, $offset)->search();
+        
+        if(empty($hits) && $times > 1){
+            $this->performSearch($builder, $options, $times - 2);
+        }
 
         $facets = collect($builder->wheres)->map(function ($value, $key) use ($search) {
             if ($value instanceof \Scout\Xunsearch\Operators\FacetsOperator) {
@@ -245,16 +252,16 @@ class XunsearchEngine extends Engine
 //         })->filter();
     }
 
-    private function getScws($srting){
+    private function getScws($srting, $times){
         if(empty($srting)){
             return $srting;
         }
         $tokenizer = new \XSTokenizerScws;
         
-        $top_words                      = $tokenizer->getTops($srting, 5, 'n,v,vn');
+        $top_words                      = $tokenizer->getTops($srting, $times, 'n,v,vn');
         $words                          = array_column($top_words, 'word');
         
-        return implode(' ', $words);
+        return implode('OR', $words);
     }
     
     /**
